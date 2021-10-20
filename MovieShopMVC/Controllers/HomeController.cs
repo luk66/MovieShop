@@ -8,13 +8,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Models;
 using Infrastructure.Services;
+using ApplicationCore.ServiceInterfaces;
 
 namespace MovieShopMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
+        private IMovieService _movieService;
+        public HomeController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
 
         // by default its get
         [HttpGet]
@@ -22,7 +27,7 @@ namespace MovieShopMVC.Controllers
         {
             // call movie service class to get list of movie card models
             MovieService service = new MovieService();
-            var movieCards = service.GetTop30RevenueMovies();
+            var movieCards = _movieService.GetTop30RevenueMovies();
             //passing data from controller to view, strongly typed models
             // ViewBag and ViewData
             ViewBag.PageTitle = "Top Revenue Movies";
