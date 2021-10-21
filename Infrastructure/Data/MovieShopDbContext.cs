@@ -26,8 +26,16 @@ namespace Infrastructure.Data
             modelBuilder.Entity<User>(ConfigureUser);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
             modelBuilder.Entity<MovieGenre>(ConfigureMovieGenre);
+            modelBuilder.Entity<MovieCast>(ConfigureMovieCast);
         }
 
+        private void ConfigureMovieCast(EntityTypeBuilder<MovieCast> builder)
+        {
+            builder.ToTable("MovieCast");
+            builder.HasKey(mc => new { mc.MovieId, mc.CastId, mc.Character });
+            builder.HasOne(m => m.Movie).WithMany(m => m.Casts).HasForeignKey(m => m.MovieId);
+            builder.HasOne(c => c.Cast).WithMany(c => c.Movies).HasForeignKey(c => c.CastId);
+        }
 
         private void ConfigureMovieGenre(EntityTypeBuilder<MovieGenre> builder)
         {
@@ -105,6 +113,8 @@ namespace Infrastructure.Data
         public DbSet<Trailer> Trailers { get; set; }
 
         public DbSet<MovieGenre> movieGenres { get; set; }
+
+        public DbSet <MovieCast> movieCasts { get; set; }
 
     }
 

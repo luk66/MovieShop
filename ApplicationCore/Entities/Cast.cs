@@ -17,5 +17,7 @@ namespace ApplicationCore.Entities
 
         public string? ProfilePath { get; set; }
 
+        //Navigation property
+        public ICollection<MovieCast> Movies { get; set; }
     }
 }
