@@ -26,7 +26,7 @@ namespace MovieShopMVC.Controllers
         public IActionResult Index()
         {
             // call movie service class to get list of movie card models
-            MovieService service = new MovieService();
+            //MovieService service = new MovieService();
             var movieCards = _movieService.GetTop30RevenueMovies();
             //passing data from controller to view, strongly typed models
             // ViewBag and ViewData

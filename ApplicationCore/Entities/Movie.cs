@@ -32,5 +32,9 @@ namespace ApplicationCore.Entities
         // rating column will not be there in Movie Table
         // average rating should come from review table
         public decimal? Rating { get; set; }
+
+        //Navigation Property
+        public ICollection<Trailer> Trailers { get; set;} 
+        public ICollection<MovieGenre> Genres { get; set; }
     }
 }
