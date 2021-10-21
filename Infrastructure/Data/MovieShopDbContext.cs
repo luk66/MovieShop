@@ -22,6 +22,18 @@ namespace Infrastructure.Data
         {
             //specify fluent api rules for your entities
             modelBuilder.Entity<Movie>(ConfigureMovie);
+            modelBuilder.Entity<Cast>(ConfigureCast);
+        }
+
+
+        private void ConfigureCast(EntityTypeBuilder<Cast> builder)
+        {
+            builder.ToTable("Cast");
+            builder.HasKey(c => c.Id);
+            builder.Property(c => c.Name).HasMaxLength(128);
+            builder.Property(c => c.Gender).HasMaxLength(4096);
+            builder.Property(c => c.TmdbURL).HasMaxLength(4096);
+            builder.Property(c => c.ProfilePath).HasMaxLength(2084);
         }
 
         private void ConfigureMovie(EntityTypeBuilder<Movie> builder)
@@ -49,6 +61,8 @@ namespace Infrastructure.Data
         public DbSet<Genre> Genres { get; set; }
 
         public DbSet<Movie> Movies { get; set; }
+
+        public DbSet<Cast> Casts { get; set; }
     }
 
    
