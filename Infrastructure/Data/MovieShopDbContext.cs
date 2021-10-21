@@ -23,8 +23,22 @@ namespace Infrastructure.Data
             //specify fluent api rules for your entities
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<Cast>(ConfigureCast);
+            modelBuilder.Entity<User>(ConfigureUser);
         }
 
+        private void ConfigureUser(EntityTypeBuilder<User> builder)
+        {
+            builder.ToTable("User");
+            builder.HasKey(u => u.Id);
+            builder.Property(u => u.FirstName).HasMaxLength(128);
+            builder.Property(u => u.LastName).HasMaxLength(128);
+            builder.Property(u => u.Email).HasMaxLength(256);
+            builder.Property(u => u.HashedPassword).HasMaxLength(1024);
+            builder.Property(u => u.Salt).HasMaxLength(1024);
+            builder.Property(u => u.PhoneNumber).HasMaxLength(16);
+
+
+        }
 
         private void ConfigureCast(EntityTypeBuilder<Cast> builder)
         {
@@ -34,6 +48,7 @@ namespace Infrastructure.Data
             builder.Property(c => c.Gender).HasMaxLength(4096);
             builder.Property(c => c.TmdbURL).HasMaxLength(4096);
             builder.Property(c => c.ProfilePath).HasMaxLength(2084);
+
         }
 
         private void ConfigureMovie(EntityTypeBuilder<Movie> builder)
@@ -63,6 +78,10 @@ namespace Infrastructure.Data
         public DbSet<Movie> Movies { get; set; }
 
         public DbSet<Cast> Casts { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<User> Users { get; set; }
     }
 
    
