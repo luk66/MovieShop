@@ -23,11 +23,49 @@ namespace Infrastructure.Data
             //specify fluent api rules for your entities
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<Cast>(ConfigureCast);
-            modelBuilder.Entity<User>(ConfigureUser);
             modelBuilder.Entity<Trailer>(ConfigureTrailer);
             modelBuilder.Entity<Crew>(ConfigureCrew);
+            
+            modelBuilder.Entity<User>(ConfigureUser);
+            modelBuilder.Entity<Review>(ConfigureReview);
+            modelBuilder.Entity<Purchase>(ConfigurePurchase);
+
             modelBuilder.Entity<MovieGenre>(ConfigureMovieGenre);
             modelBuilder.Entity<MovieCast>(ConfigureMovieCast);
+            modelBuilder.Entity<MovieCrew>(ConfigureMovieCrew);
+            modelBuilder.Entity<UserRole>(ConfigureUserRole);
+
+            
+        }
+
+        private void ConfigurePurchase(EntityTypeBuilder<Purchase> builder)
+        {
+            builder.ToTable("Purchase");
+            builder.Property(p=>p.TotalPrice).HasColumnType("decimal(18, 2)");
+        }
+
+        private void ConfigureReview(EntityTypeBuilder<Review> builder)
+        {
+            builder.ToTable("Review");
+            builder.HasKey(r => new { r.MovieId, r.UserId });
+            builder.Property(m => m.Rating).HasColumnType("decimal(3, 2)");
+        }
+
+        private void ConfigureUserRole(EntityTypeBuilder<UserRole> builder)
+        {
+            builder.ToTable("UserRole");
+            builder.HasKey(ur => new { ur.UserId, ur.RoleId });
+        }
+
+        private void ConfigureMovieCrew(EntityTypeBuilder<MovieCrew> builder)
+        {
+            builder.ToTable("MovieCrew");
+            builder.HasKey(mc => new { mc.MovieId, mc.CrewId, mc.Department, mc.Job });
+            builder.Property(mc => mc.Department).HasMaxLength(128);
+            builder.Property(mc => mc.Job).HasMaxLength(128);
+            builder.HasOne(m => m.Movie).WithMany(m => m.Crews).HasForeignKey(m => m.MovieId);
+            builder.HasOne(c => c.Crew).WithMany(c => c.Movies).HasForeignKey(c => c.CrewId);
+
         }
 
         private void ConfigureCrew(EntityTypeBuilder<Crew> builder)
@@ -62,6 +100,7 @@ namespace Infrastructure.Data
             builder.HasKey(t => t.Id);
             builder.Property(t => t.TrailerUrl).HasMaxLength(2084);
             builder.Property(t => t.Name).HasMaxLength(2084);
+            builder.HasOne(t => t.Movie).WithMany(t => t.Trailers).HasForeignKey(t => t.MovieId);
         }
 
         private void ConfigureUser(EntityTypeBuilder<User> builder)
@@ -125,9 +164,19 @@ namespace Infrastructure.Data
 
         public DbSet<Crew> Crews { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Favorite> Favorites { get; set; }
+
+        public DbSet<Purchase> Purchases { get; set; }
+
         public DbSet<MovieGenre> movieGenres { get; set; }
 
-        public DbSet <MovieCast> movieCasts { get; set; }
+        public DbSet<MovieCast> movieCasts { get; set; }
+
+        public DbSet<MovieCrew> movieCrews { get; set; }
+
+        public DbSet<UserRole> userRoles { get; set; }
 
     }
 
