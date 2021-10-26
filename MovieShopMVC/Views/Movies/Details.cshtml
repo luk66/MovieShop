@@ -1,0 +1,41 @@
+﻿@model ApplicationCore.Models.MovieDetailsResponseModel
+
+@{
+    ViewData["Title"] = "Movie Details";
+}
+
+<div>
+    @Model.Title
+</div>
+
+<div>
+    <img src="@Model.PosterUrl"/>
+</div>
+
+<div>
+    @foreach(var genre in Model.Genres)
+            {
+                <div>@genre.Name</div>
+            }
+</div>
+
+<div class="trailers">
+    @foreach(var trailer in Model.Trailers)
+            {
+                <div>
+                    <a href="@trailer.TrailerUrl">@trailer.Name</a>
+                </div>
+            }
+</div>
+
+
+<div class="casts">
+    @foreach(var cast in Model.Casts)
+            {
+    <div>
+        @cast.Name
+        @cast.Character
+        <img src=@cast.ProfilePath />
+    </div>
+            }
+</div>
