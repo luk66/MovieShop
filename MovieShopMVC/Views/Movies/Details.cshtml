@@ -4,22 +4,6 @@
     ViewData["Title"] = "Movie Details";
 }
 
-@*Movie Details View Assignment
-
-
-Movie Details page display complete details of a particular movie, such as Movie Facts, Trailers, Casts, Genres etc.
-UI Requirements
-	1.	Use Bootstrap row to create two rows with first row containing 3 columns Grid system
-	1.	First Column should hav movie poster
-	2.	Second column should have Movie Details such as title, genres and rating using Badges, overview etc.
-	3.	Third column should have buttons such as Buy Movie, Review etc
-	2.	Second row should have 2 columns with first column having two parts
-	1.	First Column should have Movie Facts using Bootstrap List group, below it should have list of trailers for the movie using List group
-	2.	Second column should display Casts belonging to that Movie using List group, when clicked on cast, should navigate to cast details page.
-Technical
-	1.	MovieService should return MovieDetailsResponseModel that includes all the Movie details along with Casts, Genres and Trailers belonging to that movie
-	2.	MovieRepository GetById method should get the average rating also from Reviews table along with Casts, Genres and Trailers belonging to that movie.*@
-
 
 <div class="container">
     <div class="bg-image mb-5" style="background-image: url(@Model.BackdropUrl); height: 400px;">
@@ -46,7 +30,7 @@ Technical
                     </div>
                 </div>
                 <div class="mt-2 mb-2">
-                    <span class="badge badge-success">Success</span>
+                    <span class="badge badge-success">@Math.Round(Model.Rating.Value,2)/10</span>
                 </div>
                 
                 <small class="text-white">@Model.Overview</small>
@@ -87,7 +71,7 @@ Technical
                     @foreach (var trailer in Model?.Trailers)
                     {
                         <li class="list-group-item bg-transparent" style="border:0">
-                            <a href="@trailer.TrailerUrl" style="text-decoration: none; color:inherit; "> >@trailer.Name</a>
+                            <a href="@trailer.TrailerUrl" style="text-decoration: none; color:inherit; ">  @trailer.Name</a>
                         </li>
                     }
                 </ul>
@@ -107,7 +91,7 @@ Technical
                             <img class="img-responsive img-thumbnail rounded-sm rounded-circle border-0" stype="height: 50%" src=@cast.ProfilePath />
                         </div>
                         <div class="col-5 mt-3">
-                            @cast.Name
+                            <a href="@cast.TmdbURL"> @cast.Name</a> 
                         </div>
                         <div class="col-5 mt-3">
                             @cast.Character

@@ -40,5 +40,7 @@ namespace ApplicationCore.Entities
         public ICollection<MovieCast> Casts { get; set; }
 
         public ICollection<MovieCrew> Crews { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
     }
 }

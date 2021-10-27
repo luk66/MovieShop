@@ -9,5 +9,7 @@
         public string Character { get; set; }
 
         public string ProfilePath { get; set; }
+
+        public string TmdbURL { get; set; }
     }
 }
