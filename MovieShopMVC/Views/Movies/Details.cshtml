@@ -4,38 +4,129 @@
     ViewData["Title"] = "Movie Details";
 }
 
-<div>
-    @Model.Title
-</div>
+@*Movie Details View Assignment
 
-<div>
-    <img src="@Model.PosterUrl"/>
-</div>
 
-<div>
-    @foreach(var genre in Model.Genres)
-            {
-                <div>@genre.Name</div>
-            }
-</div>
+Movie Details page display complete details of a particular movie, such as Movie Facts, Trailers, Casts, Genres etc.
+UI Requirements
+	1.	Use Bootstrap row to create two rows with first row containing 3 columns Grid system
+	1.	First Column should hav movie poster
+	2.	Second column should have Movie Details such as title, genres and rating using Badges, overview etc.
+	3.	Third column should have buttons such as Buy Movie, Review etc
+	2.	Second row should have 2 columns with first column having two parts
+	1.	First Column should have Movie Facts using Bootstrap List group, below it should have list of trailers for the movie using List group
+	2.	Second column should display Casts belonging to that Movie using List group, when clicked on cast, should navigate to cast details page.
+Technical
+	1.	MovieService should return MovieDetailsResponseModel that includes all the Movie details along with Casts, Genres and Trailers belonging to that movie
+	2.	MovieRepository GetById method should get the average rating also from Reviews table along with Casts, Genres and Trailers belonging to that movie.*@
 
-<div class="trailers">
-    @foreach(var trailer in Model.Trailers)
-            {
-                <div>
-                    <a href="@trailer.TrailerUrl">@trailer.Name</a>
+
+<div class="container">
+    <div class="bg-image mb-5" style="background-image: url(@Model.BackdropUrl); height: 400px;">
+        <div class="row  mask" style="background-color: rgba(0, 0, 0, 0.8); height: 100%; margin:0">
+
+            <div class="col-5">
+                <img class="float-right mt-3" src="@Model.PosterUrl" style="max-height: 70%" />
+            </div>
+
+            <div class="col-5">
+
+                <h3 class="text-white mt-2">@Model.Title</h3>
+                <small class="text-muted"> @Model.Tagline </small>
+
+                <div class="row">
+                    <div class="col-4 text-secondary font-weight-bold mt-1">
+                        @Model.RunTime m | @Model.ReleaseDate.Value.Date.Year
+                    </div>
+                    <div class="col">
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <span class="badge badge-pill badge-secondary">@genre.Name</span>
+                        }
+                    </div>
                 </div>
-            }
-</div>
+                <div class="mt-2 mb-2">
+                    <span class="badge badge-success">Success</span>
+                </div>
+                
+                <small class="text-white">@Model.Overview</small>
 
 
-<div class="casts">
-    @foreach(var cast in Model.Casts)
-            {
-    <div>
-        @cast.Name
-        @cast.Character
-        <img src=@cast.ProfilePath />
+            </div>
+            <div class="col-2">
+                <div class="mt-5">
+                    <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm">REVIEW</button>
+                    <button type="button" class="btn btn-light btn-lg btn-block btn-sm">BUY $@Model.Price</button>
+                </div>
+                
+                
+
+            </div>
+        </div>
     </div>
-            }
+    <div class="row justify-content-around">
+        <div class="col-5 bg-light rounded-lg">
+            <h4>MOVIE FACTS</h4>
+            <hr>
+
+            <div class="ml-0 mr-0" >
+                <ul class="list-group list-group-flush m-0" style="opacity:1">
+                    <li class="list-group-item bg-transparent">Release Date <span class="badge badge-pill badge-dark">@Model.ReleaseDate.Value.ToShortDateString()</span></li>
+                    <li class="list-group-item bg-transparent">Run Time <span class="badge badge-pill badge-dark">@Model.RunTime.Value m</span></li>
+                    <li class="list-group-item bg-transparent">Box Office <span class="badge badge-pill badge-dark">@Model.Revenue?.ToString("C0")</span></li>
+                    <li class="list-group-item bg-transparent">Budget <span class="badge badge-pill badge-dark">@Model.Budget?.ToString("C0")</span></li>
+              
+                </ul>
+
+            </div>
+
+            <div class="ml-0 mr-0 mt-2">
+                <h4>Trailers</h4>
+                <hr>
+                <ul class="list-group ">
+                    @foreach (var trailer in Model?.Trailers)
+                    {
+                        <li class="list-group-item bg-transparent" style="border:0">
+                            <a href="@trailer.TrailerUrl" style="text-decoration: none; color:inherit; "> >@trailer.Name</a>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-6">
+
+            <div class="ml-5">
+                <div class="row border-bottom">
+                    <h4>CAST</h4>
+                </div>
+                @foreach (var cast in Model.Casts)
+                {
+                    <div class="row border-bottom">
+                        <div class="col ml-3">
+                            <img class="img-responsive img-thumbnail rounded-sm rounded-circle border-0" stype="height: 50%" src=@cast.ProfilePath />
+                        </div>
+                        <div class="col-5 mt-3">
+                            @cast.Name
+                        </div>
+                        <div class="col-5 mt-3">
+                            @cast.Character
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
+
+
+
+
+
