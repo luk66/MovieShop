@@ -14,7 +14,7 @@ namespace MovieShopMVC.Controllers
         private readonly ICurrentUserService _currentUserService;
         public UserController(ICurrentUserService currentUserSerivce)
         {
-            _currentUserService = currentUserSerivce
+            _currentUserService = currentUserSerivce;
         }
 
         // all the action methods in User Controller should work only when user is Authenticated 
