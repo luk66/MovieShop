@@ -27,6 +27,13 @@ namespace MovieShopMVC.Controllers
             //will execute when user clicks on submit button 
             // save the user registration info to the database
             //receive the model from view
+
+            //check the model is valid
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var newUser = await _userService.RegisterUser(requestModel);
             return View();
         }
