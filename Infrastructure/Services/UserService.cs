@@ -74,7 +74,7 @@ namespace Infrastructure.Services
                     Id = dbUser.Id,
                     FirstName = dbUser.FirstName,
                     LastName = dbUser.LastName,
-                    DateofBirth = dbUser.DateOfBirth.GetValueOrDefault(),
+                    DateOfBirth = dbUser.DateOfBirth.GetValueOrDefault(),
                     Email = dbUser.Email
                 };
                 return userLoginReponseModel;

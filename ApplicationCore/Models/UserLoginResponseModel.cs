@@ -16,6 +16,6 @@ namespace ApplicationCore.Models
 
         public string Email { get; set; }
 
-        public DateTime DateofBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 }

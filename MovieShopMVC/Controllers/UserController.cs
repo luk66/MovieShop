@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,21 @@ namespace MovieShopMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Purchases(int id)
+        //Filters in ASP.NET
+        //[Authorize]
+        //the alt page set in startup, services.AddAuthentication
+        public async Task<IActionResult> Purchases()
         {
             //get all the movies purchased by user => List<MovieCard>
             //reuse movieCard
+            //var userIdentity = this.User.Identity;
+            //if (userIdentity != null && userIdentity.IsAuthenticated)
+            //{
+            //    return View();
+            //}
+            //RedirectToAction("Login", "Action");
+            //int userId = Convert.ToInt32((HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
+
             return View();
         }
 
