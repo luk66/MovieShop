@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieShopMVC.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieShopMVC.Controllers
+    
 {
     public class UserController : Controller
     {
+        private readonly ICurrentUserService _currentUserService;
+        public UserController(ICurrentUserService currentUserSerivce)
+        {
+            _currentUserService = currentUserSerivce
+        }
+
         // all the action methods in User Controller should work only when user is Authenticated 
         [HttpPost]
         public async Task<IActionResult> Purchase()
@@ -46,7 +54,7 @@ namespace MovieShopMVC.Controllers
             //}
             //RedirectToAction("Login", "Action");
             //int userId = Convert.ToInt32((HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
-
+            var userId = _currentUserService.UserId;
             return View();
         }
 

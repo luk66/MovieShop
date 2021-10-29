@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MovieShopMVC.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,14 +30,15 @@ namespace MovieShopMVC
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {   
+        {   // Injection
             // IOC
             services.AddControllersWithViews();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddHttpContextAccessor();
             // Inject connection string from appsetting.json to MovieShipDbContext
             services.AddDbContext<MovieShopDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
