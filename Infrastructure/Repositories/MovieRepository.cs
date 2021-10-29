@@ -10,12 +10,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class MovieRepository : IMovieRepository
+    public class MovieRepository : EfRepository<Movie>, IMovieRepository
     {
-        public MovieShopDbContext _dbContext;
-        public MovieRepository(MovieShopDbContext dbContext)
+        public MovieRepository(MovieShopDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
         }
 
         public async Task<Movie> GetMovieById(int Id)
