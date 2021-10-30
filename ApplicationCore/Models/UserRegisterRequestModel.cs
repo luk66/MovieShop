@@ -27,10 +27,10 @@ namespace ApplicationCore.Models
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
-        
+
+        [Required]
         [DataType(DataType.Date)]
         // minimum age and maximum age
-
         public DateTime DateOfBirth { get; set; }
 
     }

@@ -28,6 +28,11 @@ namespace Infrastructure.Repositories
             return movie;
         }
 
+        public async Task<IEnumerable<Review>> GetMovieReviews(int id, int pageSize = 30, int page = 1)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Movie>> GetTop30RevenueMovies()
         {
             // we are gonna use EF with LINQ to get top 30 movies by revenue

@@ -18,7 +18,7 @@ namespace ApplicationCore.Models
             Casts = new List<CastResponseModel>();
             Genres = new List<GenreModel>();
             Trailers = new List<TrailerResponseModel>();
-
+            Reviews = new List<UserReviewResponseModel>();
         }
 
         public int Id { get; set; }
@@ -45,5 +45,40 @@ namespace ApplicationCore.Models
         public List<UserReviewResponseModel> Reviews { get; set; }
         // list of trailers
         public List<TrailerResponseModel> Trailers { get; set; }
+    }
+
+    public class CastResponseModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public string TmdbUrl { get; set; }
+        public string ProfilePath { get; set; }
+        public string Character { get; set; }
+    }
+    public class GenreModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    public class MovieReviewResponseModel
+    {
+        public int UserId { get; set; }
+        public int MovieId { get; set; }
+        public string ReviewText { get; set; }
+        public decimal Rating { get; set; }
+        public string Name { get; set; }
+    }
+    public class UserReviewResponseModel
+    {
+        public int UserId { get; set; }
+        public List<MovieReviewResponseModel> MovieReviews { get; set; }
+    }
+    public class TrailerResponseModel
+    {
+        public int Id { get; set; }
+        public int MovieId { get; set; }
+        public string TrailerUrl { get; set; }
+        public string Name { get; set; }
     }
 }

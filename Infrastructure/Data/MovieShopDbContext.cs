@@ -41,7 +41,11 @@ namespace Infrastructure.Data
         private void ConfigurePurchase(EntityTypeBuilder<Purchase> builder)
         {
             builder.ToTable("Purchase");
-            builder.Property(p=>p.TotalPrice).HasColumnType("decimal(18, 2)");
+            builder.HasKey(p => p.Id);
+            builder.Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Property(p => p.PurchaseNumber).ValueGeneratedOnAdd();
+            builder.HasIndex(p => new { p.UserId, p.MovieId }).IsUnique();
+            builder.Property(p => p.TotalPrice).HasColumnType("decimal(5, 2)");
         }
 
         private void ConfigureReview(EntityTypeBuilder<Review> builder)

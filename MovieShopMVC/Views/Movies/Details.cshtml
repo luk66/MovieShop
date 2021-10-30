@@ -55,15 +55,16 @@
 
             <div class="ml-0 mr-0" >
                 <ul class="list-group list-group-flush m-0" style="opacity:1">
-                    <li class="list-group-item bg-transparent">Release Date <span class="badge badge-pill badge-dark">@Model.ReleaseDate.Value.ToShortDateString()</span></li>
-                    <li class="list-group-item bg-transparent">Run Time <span class="badge badge-pill badge-dark">@Model.RunTime.Value m</span></li>
-                    <li class="list-group-item bg-transparent">Box Office <span class="badge badge-pill badge-dark">@Model.Revenue?.ToString("C0")</span></li>
-                    <li class="list-group-item bg-transparent">Budget <span class="badge badge-pill badge-dark">@Model.Budget?.ToString("C0")</span></li>
-              
+                    <li class="list-group-item bg-transparent"><i class='far fa-calendar-alt  mr-2'></i>  Release Date <span class="badge badge-pill badge-dark">@Model.ReleaseDate.Value.ToShortDateString()</span></li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-hourglass  mr-2"></i>  Run Time <span class="badge badge-pill badge-dark">@Model.RunTime.Value m</span></li>
+                    <li class="list-group-item bg-transparent"><i class="far fa-money-bill-alt  mr-2"></i>  Box Office <span class="badge badge-pill badge-dark">@Model.Revenue?.ToString("C0")</span></li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-dollar-sign  mr-2"></i>  Budget <span class="badge badge-pill badge-dark">@Model.Budget?.ToString("C0")</span></li>
+                    <li class="list-group-item bg-transparent"><a class =" mr-3" href="@Model.ImdbUrl"  target="_blank" style="text-decoration: none; color:inherit;"><i class="fab fa-imdb"></i></a>
+                                                                <a href="#" style="text-decoration: none; color:inherit;"><i class="fas fa-share-square"></i></a></li>
                 </ul>
 
             </div>
-
+            
             <div class="ml-0 mr-0 mt-2">
                 <h4>Trailers</h4>
                 <hr>
@@ -71,7 +72,7 @@
                     @foreach (var trailer in Model?.Trailers)
                     {
                         <li class="list-group-item bg-transparent" style="border:0">
-                            <a href="@trailer.TrailerUrl" style="text-decoration: none; color:inherit; ">  @trailer.Name</a>
+                            <a href="@trailer.TrailerUrl" style="text-decoration: none; color:inherit; "><i class="fab fa-youtube"></i>  @trailer.Name</a>
                         </li>
                     }
                 </ul>
@@ -91,7 +92,7 @@
                             <img class="img-responsive img-thumbnail rounded-sm rounded-circle border-0" stype="height: 50%" src=@cast.ProfilePath />
                         </div>
                         <div class="col-5 mt-3">
-                            <a href="@cast.TmdbURL"> @cast.Name</a> 
+                             @cast.Name
                         </div>
                         <div class="col-5 mt-3">
                             @cast.Character
