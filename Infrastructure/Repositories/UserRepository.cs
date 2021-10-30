@@ -19,7 +19,8 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Review>> GetReviewsByUser(int userId)
         {
-            throw new NotImplementedException();
+            var userReviews = await _dbContext.Reviews.Include(r => r.Movie).Include(r=>r.User).Where(r => r.UserId == userId).ToListAsync();
+            return userReviews;
         }
 
         //public async Task<User> AddUser(User user)

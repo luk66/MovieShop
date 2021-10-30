@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ApplicationCore.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieShopMVC.Services;
 using System;
@@ -12,9 +13,11 @@ namespace MovieShopMVC.Controllers
     public class UserController : Controller
     {
         private readonly ICurrentUserService _currentUserService;
-        public UserController(ICurrentUserService currentUserSerivce)
+        private readonly IUserService _userService;
+        public UserController(ICurrentUserService currentUserSerivce, IUserService userService)
         {
             _currentUserService = currentUserSerivce;
+            _userService = userService;
         }
 
         // all the action methods in User Controller should work only when user is Authenticated 
@@ -68,7 +71,8 @@ namespace MovieShopMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Reviews(int id)
         {
-            return View();
+            var movieReviews = await _userService.GetAllReviewsByUser(id);
+            return View(movieReviews);
         }
     }
 }

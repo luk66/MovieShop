@@ -158,7 +158,29 @@ namespace Infrastructure.Services
 
         public async Task<UserReviewResponseModel> GetAllReviewsByUser(int id)
         {
-            throw new NotImplementedException();
+            var reviews = await _userRepository.GetReviewsByUser(id);
+            if (reviews == null)
+            {
+                throw new Exception($"No Reviews Found for this User id {id}");
+            }
+            var movieReviews = new List<MovieReviewResponseModel>();
+            foreach(var review in reviews)
+            {
+                movieReviews.Add(new MovieReviewResponseModel
+                {
+                    UserId = id,
+                    MovieId = review.MovieId,
+                    ReviewText = review.ReviewText,
+                    Rating = review.Rating,
+                    Name = review.User.FirstName
+                });
+            }
+            var userReviews = new UserReviewResponseModel
+            {
+                UserId = id,
+                MovieReviews = movieReviews
+            };
+            return userReviews;
         }
     }
 }
