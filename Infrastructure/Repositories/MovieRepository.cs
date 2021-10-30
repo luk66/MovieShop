@@ -30,7 +30,8 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Review>> GetMovieReviews(int id, int pageSize = 30, int page = 1)
         {
-            throw new NotImplementedException();
+            var reviews = await _dbContext.Reviews.Include(r => r.User).Where(r => r.MovieId == id).ToListAsync();
+            return reviews;
         }
 
         public async Task<IEnumerable<Movie>> GetTop30RevenueMovies()

@@ -3,8 +3,6 @@ using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -16,6 +14,29 @@ namespace Infrastructure.Services
         public MovieService(IMovieRepository movieRepository)
         {
             _movieRepository = movieRepository;
+        }
+
+        public async Task<List<MovieReviewResponseModel>> GetMovieReviewsByMovieId(int id)
+        {
+            var reviews = await _movieRepository.GetMovieReviews(id);
+            if(reviews == null)
+            {
+                throw new Exception($"No Reviews Found for this Movie id {id}");
+            }
+            var movieReviews = new List<MovieReviewResponseModel>();
+            foreach (var review in reviews)
+            {
+                movieReviews.Add(new MovieReviewResponseModel
+                {
+                    UserId = review.UserId,
+                    MovieId = review.MovieId,
+                    ReviewText = review.ReviewText,
+                    Rating = review.Rating,
+                    Name = review.User.FirstName
+                });
+            }
+
+            return movieReviews;
         }
 
         public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)
@@ -108,6 +129,7 @@ namespace Infrastructure.Services
             return movieCards;
 
         }
+
 
     }
 }

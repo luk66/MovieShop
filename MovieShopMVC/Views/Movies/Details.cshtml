@@ -39,8 +39,8 @@
             </div>
             <div class="col-2">
                 <div class="mt-5">
-                    <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm">REVIEW</button>
-                    <button type="button" class="btn btn-light btn-lg btn-block btn-sm">BUY $@Model.Price</button>
+                    <a type="button" class="btn btn-outline-light btn-lg btn-block btn-sm" asp-controller="Movies" asp-action="Reviews" asp-route-id="@Model.Id">REVIEW</a>
+                    <a type="button" class="btn btn-light btn-lg btn-block btn-sm">BUY $@Model.Price</a>
                 </div>
                 
                 
