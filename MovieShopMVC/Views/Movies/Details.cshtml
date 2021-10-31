@@ -43,9 +43,13 @@
                     <form asp-controller="User" asp-action="Purchase" asp-route-id="@Model.Id" method="post">
                         <button>BUY $@Model.Price</button>
                     </form>
+                    @*<form asp-controller="User" asp-action="Review" method="post">
+            <button>Write A Review</button>
+        </form>*@
                     @*<a type="button" class="btn btn-light btn-lg btn-block btn-sm" asp-controller="User" asp-action="Purchase" asp-route-id="@Model.Id">BUY $@Model.Price</a>*@
 
                     @*<a type="button" class="btn btn-light btn-lg btn-block btn-sm" asp-controller="User" asp-action="Review" asp-route-id="@Model.Id">Write A Review</a>*@
+                    <a asp-controller="User" asp-action="Review" class="btn btn-outline-primary mr-3"> Review</a>
                 </div>
 
 

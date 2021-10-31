@@ -47,6 +47,14 @@ namespace MovieShopMVC.Controllers
             return Ok("Add Favorite success!");
         }
 
+        [HttpGet]
+        public IActionResult Review()
+        {
+            //use this action method to display empty view
+
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Review(ReviewRequestModel reviewRequest)
         {
@@ -55,6 +63,8 @@ namespace MovieShopMVC.Controllers
             await _userService.AddMovieReview(reviewRequest);
             return Ok("Add Movie Review success!");
         }
+
+        
 
         [HttpGet]
         //Filters in ASP.NET
