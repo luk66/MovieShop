@@ -30,5 +30,12 @@ namespace MovieShopMVC.Controllers
             var movieReviews = await _movieService.GetMovieReviewsByMovieId(id);
             return View(movieReviews);
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Purchase(int id)
+        //{
+        //    var moviePurchase = await _movieService.GetAllPurchasesByMovie(id);
+        //    return View(moviePurchase);
+        //}
     }
 }

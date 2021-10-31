@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static ApplicationCore.Models.FavoriteResponseModel;
 
 namespace Infrastructure.Services
 {
@@ -16,11 +17,17 @@ namespace Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPurchaseRepository _purchaseRepository;
+        private readonly IMovieRepository _movieReository;
+        private readonly IAsyncRepository<Favorite> _favoriteRepository;
+        
 
-        public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository)
+        public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository, IMovieRepository movieReository,
+                           IAsyncRepository<Favorite> favoriteRepository)
         {
             _userRepository = userRepository;
             _purchaseRepository = purchaseRepository;
+            _movieReository = movieReository;
+            _favoriteRepository = favoriteRepository;
         }
 
         public async Task<int> RegisterUser(UserRegisterRequestModel requestModel)
@@ -110,27 +117,84 @@ namespace Infrastructure.Services
 
         public async Task AddFavorite(FavoriteRequestModel favoriteRequest)
         {
-            throw new NotImplementedException();
+            //TODO
+            var existFav = await _favoriteRepository.Get(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
+
+            if (existFav != null)
+            {
+                throw new Exception($"All already favorited");
+            }
+            var newFav = new Favorite
+            {
+                MovieId = favoriteRequest.MovieId,
+                UserId = favoriteRequest.UserId
+            };
+
+            await _favoriteRepository.Add(newFav);
+
         }
 
         public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
         {
-            throw new NotImplementedException();
+            //TODO
+            var existFav = await _favoriteRepository.Get(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
+            if(existFav == null)
+            {
+                throw new Exception($"Have not favorited yet");
+            }
+            await _favoriteRepository.Delete(existFav.FirstOrDefault());
         }
 
         public async Task<FavoriteResponseModel> GetAllFavoritesForUser(int id)
         {
-            throw new NotImplementedException();
+            // TODO
+            var favoriteMovies = await _favoriteRepository.Get(f => f.UserId == id);
+            var fMovies = new List<FavoriteMovieResponseModel>();
+            foreach(var movie in favoriteMovies)
+            {
+                fMovies.Add(new FavoriteMovieResponseModel
+                {
+                    Id = movie.MovieId,
+                    Title = movie.Movie.Title,
+                    PosterUrl = movie.Movie.PosterUrl,
+                    
+                });
+            }
+
+            var favoriteResponse = new FavoriteResponseModel
+            {
+                FavoriteMovies = fMovies
+            };
+
+            return favoriteResponse;
         }
 
         public async Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId)
         {
-            throw new NotImplementedException();
+            var isMoviePurchased = await IsMoviePurchased(purchaseRequest, userId);
+            if (isMoviePurchased == true)
+            {
+                return false;
+            }
+            var movieDetails = await _movieReository.GetMovieById(purchaseRequest.MovieId);
+            var purchase = new Purchase
+            {
+                UserId = userId,
+                MovieId = purchaseRequest.MovieId,
+                PurchaseNumber = purchaseRequest.PurchaseNumber.Value,
+                PurchaseDateTime = purchaseRequest.PurchaseDateTime.Value,
+                TotalPrice = movieDetails.Price.Value
+            };
+
+            await _purchaseRepository.Add(purchase);
+            return true;
+            
         }
 
         public async Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId)
         {
-            throw new NotImplementedException();
+            var isMoviePurchased = await _purchaseRepository.Exists(p => p.UserId == userId && p.MovieId == purchaseRequest.MovieId);
+            return isMoviePurchased;
         }
 
         public async Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)

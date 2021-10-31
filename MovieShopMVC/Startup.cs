@@ -1,3 +1,4 @@
+using ApplicationCore.Entities;
 using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceInterfaces;
 using Infrastructure.Data;
@@ -39,6 +40,7 @@ namespace MovieShopMVC
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IAsyncRepository<Favorite>, EfRepository<Favorite>>();
             services.AddHttpContextAccessor();
             // Inject connection string from appsetting.json to MovieShipDbContext
             services.AddDbContext<MovieShopDbContext>(

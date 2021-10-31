@@ -30,20 +30,25 @@
                     </div>
                 </div>
                 <div class="mt-2 mb-2">
-                    <span class="badge badge-success">@Math.Round(Model.Rating.Value,2)/10</span>
+                    <span class="badge badge-success"> @Model.Rating?.ToString("0.00")</span>
                 </div>
-                
+
                 <small class="text-white">@Model.Overview</small>
 
 
             </div>
             <div class="col-2">
                 <div class="mt-5">
-                    <a type="button" class="btn btn-outline-light btn-lg btn-block btn-sm" asp-controller="Movies" asp-action="Reviews" asp-route-id="@Model.Id">REVIEW</a>
-                    <a type="button" class="btn btn-light btn-lg btn-block btn-sm">BUY $@Model.Price</a>
+                    <a type="button" class="btn btn-outline-light btn-lg btn-block btn-sm" asp-controller="Movies" asp-action="Reviews" asp-route-id="@Model.Id ">REVIEW</a>
+                    <form asp-controller="User" asp-action="Purchase" asp-route-id="@Model.Id" method="post">
+                        <button>BUY $@Model.Price</button>
+                    </form>
+                    @*<a type="button" class="btn btn-light btn-lg btn-block btn-sm" asp-controller="User" asp-action="Purchase" asp-route-id="@Model.Id">BUY $@Model.Price</a>*@
+
+                    @*<a type="button" class="btn btn-light btn-lg btn-block btn-sm" asp-controller="User" asp-action="Review" asp-route-id="@Model.Id">Write A Review</a>*@
                 </div>
-                
-                
+
+
 
             </div>
         </div>
@@ -53,18 +58,20 @@
             <h4>MOVIE FACTS</h4>
             <hr>
 
-            <div class="ml-0 mr-0" >
+            <div class="ml-0 mr-0">
                 <ul class="list-group list-group-flush m-0" style="opacity:1">
                     <li class="list-group-item bg-transparent"><i class='far fa-calendar-alt  mr-2'></i>  Release Date <span class="badge badge-pill badge-dark">@Model.ReleaseDate.Value.ToShortDateString()</span></li>
                     <li class="list-group-item bg-transparent"><i class="fas fa-hourglass  mr-2"></i>  Run Time <span class="badge badge-pill badge-dark">@Model.RunTime.Value m</span></li>
                     <li class="list-group-item bg-transparent"><i class="far fa-money-bill-alt  mr-2"></i>  Box Office <span class="badge badge-pill badge-dark">@Model.Revenue?.ToString("C0")</span></li>
                     <li class="list-group-item bg-transparent"><i class="fas fa-dollar-sign  mr-2"></i>  Budget <span class="badge badge-pill badge-dark">@Model.Budget?.ToString("C0")</span></li>
-                    <li class="list-group-item bg-transparent"><a class =" mr-3" href="@Model.ImdbUrl"  target="_blank" style="text-decoration: none; color:inherit;"><i class="fab fa-imdb"></i></a>
-                                                                <a href="#" style="text-decoration: none; color:inherit;"><i class="fas fa-share-square"></i></a></li>
+                    <li class="list-group-item bg-transparent">
+                        <a class=" mr-3" href="@Model.ImdbUrl" target="_blank" style="text-decoration: none; color:inherit;"><i class="fab fa-imdb"></i></a>
+                        <a href="#" style="text-decoration: none; color:inherit;"><i class="fas fa-share-square"></i></a>
+                    </li>
                 </ul>
 
             </div>
-            
+
             <div class="ml-0 mr-0 mt-2">
                 <h4>Trailers</h4>
                 <hr>
@@ -92,7 +99,7 @@
                             <img class="img-responsive img-thumbnail rounded-sm rounded-circle border-0" stype="height: 50%" src=@cast.ProfilePath />
                         </div>
                         <div class="col-5 mt-3">
-                             @cast.Name
+                            @cast.Name
                         </div>
                         <div class="col-5 mt-3">
                             @cast.Character

@@ -59,5 +59,12 @@ namespace Infrastructure.Repositories
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> Exists(Expression<Func<T, bool>> filter = null)
+        {
+            if (filter != null && await _dbContext.Set<T>().Where(filter).AnyAsync())
+                return true;
+            return false;
+        }
     }
 }

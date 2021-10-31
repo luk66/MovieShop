@@ -1,4 +1,5 @@
-﻿using ApplicationCore.ServiceInterfaces;
+﻿using ApplicationCore.Models;
+using ApplicationCore.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieShopMVC.Services;
@@ -20,12 +21,21 @@ namespace MovieShopMVC.Controllers
             _userService = userService;
         }
 
+
         // all the action methods in User Controller should work only when user is Authenticated 
         [HttpPost]
-        public async Task<IActionResult> Purchase()
+        public async Task<IActionResult> Purchase(int id)
         {
             // purchase a movie when user clicks BUY button on movieDetails page
-            return View();
+            // TODO
+            var userId = _currentUserService.UserId;
+            //var userId = 1;
+            var purchaseRequest = new PurchaseRequestModel
+            {
+                MovieId = id
+            };
+            var puchaseSuccess = await _userService.PurchaseMovie(purchaseRequest, userId);
+            return LocalRedirect("~/");
         }
 
         [HttpPost]
@@ -38,7 +48,7 @@ namespace MovieShopMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Review()
         {
-            // review a movie when user clicks BUY button on movieDetails page
+            // review a movie when user clicks review button on movieDetails page
             return View();
         }
 
@@ -57,10 +67,20 @@ namespace MovieShopMVC.Controllers
             //}
             //RedirectToAction("Login", "Action");
             //int userId = Convert.ToInt32((HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
+            //TODO
             var userId = _currentUserService.UserId;
+            //var userId = 1;
             var userPurchases = await _userService.GetAllPurchasesForUser(userId);
+            
             return View(userPurchases);
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetPuchaseDetails(int userId, int movieId)
+        //{
+        //    var purchaseDetail = await _userService.GetPurchasesDetails(userId, movieId);
+        //    return View(purchaseDetail);
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Favorites(int id)

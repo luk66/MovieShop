@@ -17,6 +17,8 @@ namespace ApplicationCore.RepositoryInterfaces
         Task<IEnumerable<T>> Get(Expression<Func<T, bool>> predicate);
         Task<int> GetCount(Expression<Func<T, bool>> predicate);
 
+        Task<bool> Exists(Expression<Func<T, bool>> filter = null);
+
         Task<T> Add(T entity);
         Task<T> Update(T entity);
         Task Delete(T entity);
