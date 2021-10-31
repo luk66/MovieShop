@@ -15,10 +15,12 @@ namespace Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPurchaseRepository _purchaseRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository)
         {
             _userRepository = userRepository;
+            _purchaseRepository = purchaseRepository;
         }
 
         public async Task<int> RegisterUser(UserRegisterRequestModel requestModel)
@@ -133,12 +135,47 @@ namespace Infrastructure.Services
 
         public async Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)
         {
-            throw new NotImplementedException();
+            var purchases =await _purchaseRepository.GetAllPurchasesForUser(id);
+            var purchasedMovies = new List<MovieCardResponseModel>();
+            //if (!purchases.Any())
+            //{
+            //    throw new Exception($"No Purchase Found for this User id {id}");
+            //}
+            foreach (var purchase in purchases)
+            {
+                purchasedMovies.Add(new MovieCardResponseModel
+                {
+                    Id = purchase.Movie.Id,
+                    Title = purchase.Movie.Title,
+                    PosterUrl = purchase.Movie.PosterUrl
+                });
+            }
+            var userPurchases = new PurchaseResponseModel
+            {
+                UserId = id,
+                TotalMoviesPurchased = purchasedMovies.Count,
+                PurchasedMovies = purchasedMovies
+            };
+            return userPurchases;
         }
 
         public async Task<PurchaseDetailsResponseModel> GetPurchasesDetails(int userId, int movieId)
         {
-            throw new NotImplementedException();
+            var purchase = await _purchaseRepository.GetPurchaseDetails(userId, movieId);
+
+            var purchaseDetails = new PurchaseDetailsResponseModel
+            {
+                Id = purchase.Id,
+                UserId = purchase.UserId,
+                PurchaseNumber = purchase.PurchaseNumber,
+                TotalPrice = purchase.TotalPrice,
+                PurchaseDateTime = purchase.PurchaseDateTime,
+                MovieId = purchase.Movie.Id,
+                Title = purchase.Movie.Title,
+                PosterUrl = purchase.Movie.PosterUrl,
+                ReleaseDate = purchase.Movie.ReleaseDate.GetValueOrDefault()
+            };
+            return purchaseDetails;
         }
 
         public async Task AddMovieReview(ReviewRequestModel reviewRequest)

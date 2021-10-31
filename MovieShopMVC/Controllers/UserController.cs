@@ -58,7 +58,8 @@ namespace MovieShopMVC.Controllers
             //RedirectToAction("Login", "Action");
             //int userId = Convert.ToInt32((HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
             var userId = _currentUserService.UserId;
-            return View();
+            var userPurchases = await _userService.GetAllPurchasesForUser(userId);
+            return View(userPurchases);
         }
 
         [HttpGet]

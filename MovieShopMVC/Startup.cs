@@ -38,6 +38,7 @@ namespace MovieShopMVC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddHttpContextAccessor();
             // Inject connection string from appsetting.json to MovieShipDbContext
             services.AddDbContext<MovieShopDbContext>(
