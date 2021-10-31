@@ -35,7 +35,7 @@ namespace MovieShopMVC.Controllers
                 MovieId = id
             };
             var puchaseSuccess = await _userService.PurchaseMovie(purchaseRequest, userId);
-            return LocalRedirect("~/");
+            return LocalRedirect("~/User/Purchases");
         }
 
         [HttpPost]

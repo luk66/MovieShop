@@ -19,15 +19,17 @@ namespace Infrastructure.Services
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMovieRepository _movieReository;
         private readonly IAsyncRepository<Favorite> _favoriteRepository;
-        
+        private readonly IAsyncRepository<Review> _reviewRepository;
+
 
         public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository, IMovieRepository movieReository,
-                           IAsyncRepository<Favorite> favoriteRepository)
+                           IAsyncRepository<Favorite> favoriteRepository, IAsyncRepository<Review> reviewRepository)
         {
             _userRepository = userRepository;
             _purchaseRepository = purchaseRepository;
             _movieReository = movieReository;
             _favoriteRepository = favoriteRepository;
+            _reviewRepository = reviewRepository;
         }
 
         public async Task<int> RegisterUser(UserRegisterRequestModel requestModel)
@@ -224,7 +226,7 @@ namespace Infrastructure.Services
         }
 
         public async Task<PurchaseDetailsResponseModel> GetPurchasesDetails(int userId, int movieId)
-        {
+        {   //TODO
             var purchase = await _purchaseRepository.GetPurchaseDetails(userId, movieId);
 
             var purchaseDetails = new PurchaseDetailsResponseModel
@@ -244,17 +246,37 @@ namespace Infrastructure.Services
 
         public async Task AddMovieReview(ReviewRequestModel reviewRequest)
         {
-            throw new NotImplementedException();
+            //TODO
+
+            var review = new Review
+            {
+                UserId = reviewRequest.UserId,
+                MovieId = reviewRequest.MovieId,
+                ReviewText = reviewRequest.ReviewText,
+                Rating = reviewRequest.Rating
+            };
+
+            await _reviewRepository.Add(review);
         }
 
         public async Task UpdateMovieReview(ReviewRequestModel reviewRequest)
         {
-            throw new NotImplementedException();
+            //TODO
+            var review = new Review
+            {
+                UserId = reviewRequest.UserId,
+                MovieId = reviewRequest.MovieId,
+                ReviewText = reviewRequest.ReviewText,
+                Rating = reviewRequest.Rating
+            };
+            await _reviewRepository.Update(review);
         }
 
         public async Task DeleteMovieReview(int userId, int movieId)
         {
-            throw new NotImplementedException();
+            //TODO
+            var review = await _reviewRepository.Get(r => r.UserId == userId && r.MovieId == movieId);
+            await _reviewRepository.Delete(review.FirstOrDefault());
         }
 
         public async Task<UserReviewResponseModel> GetAllReviewsByUser(int id)
