@@ -1,0 +1,58 @@
+﻿@model ApplicationCore.Models.MovieCardResponseModel
+
+<div class="card mb-4">
+    @*asp: tag helper; asp-route-{paramname}*@
+    
+    <button type="button" class="btn btn-secondary mt-0" data-toggle="modal" data-target="#exampleModal"  data-whatever= @Model.Id style="width: inherit">
+        Purchase Details
+    </button>
+
+    <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Purchase Details @Model.Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+                        </div>
+                        <div class="col">
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="far fa-calendar-alt mr-2"></i>Purchased Date
+                                    <span class="badge badge-pill badge-dark">TODO</span>
+                                </li>
+
+
+                                <li class="list-group-item">
+                                    <i class="far fa-money-bill-alt"></i> Price
+                                    <span class="badge badge-pill badge-pill badge-dark">
+                                        TODO
+                                    </span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <i class="fas fa-check-circle"></i> Purchase Number
+                                    <span class="badge badge-pill badge-dark">
+                                        TODO
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Id">
+        <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+    </a>
+</div>

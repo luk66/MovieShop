@@ -50,8 +50,9 @@
 
                     @*<a type="button" class="btn btn-light btn-lg btn-block btn-sm" asp-controller="User" asp-action="Review" asp-route-id="@Model.Id">Write A Review</a>*@
                     <a asp-controller="User" asp-action="Review" class="btn btn-outline-primary mr-3">Write A Review</a>
-                    <form asp-controller="User" asp-action="AddFavorite" asp-route-id="@Model.Id" method="post">
+                    <form asp-controller="User" asp-action="AddFavorite" method="post">
                         <button>Favorite</button>
+                        @*<label asp-for="@Model.Id"></label>*@
                     </form>
                 </div>
 

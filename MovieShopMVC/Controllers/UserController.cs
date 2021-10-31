@@ -84,6 +84,15 @@ namespace MovieShopMVC.Controllers
             var userId = _currentUserService.UserId;
             //var userId = 1;
             var userPurchases = await _userService.GetAllPurchasesForUser(userId);
+            var purchaseDetails = new List<PurchaseDetailsResponseModel>();
+            
+            foreach(var movie in userPurchases.PurchasedMovies)
+            {
+                var purchaseRespons = await _userService.GetPurchasesDetails(userId, movie.Id);
+                purchaseDetails.Add(purchaseRespons);
+            }
+            
+            ViewData["purchaseDetails"] = purchaseDetails;
             
             return View(userPurchases);
         }
