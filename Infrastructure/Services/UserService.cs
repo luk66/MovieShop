@@ -246,7 +246,6 @@ namespace Infrastructure.Services
 
         public async Task AddMovieReview(ReviewRequestModel reviewRequest)
         {
-            //TODO
 
             var review = new Review
             {

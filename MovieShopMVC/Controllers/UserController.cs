@@ -27,7 +27,6 @@ namespace MovieShopMVC.Controllers
         public async Task<IActionResult> Purchase(int id)
         {
             // purchase a movie when user clicks BUY button on movieDetails page
-            // TODO
             var userId = _currentUserService.UserId;
             //var userId = 1;
             var purchaseRequest = new PurchaseRequestModel
@@ -59,7 +58,7 @@ namespace MovieShopMVC.Controllers
         public async Task<IActionResult> Review(ReviewRequestModel reviewRequest)
         {
             // review a movie when user clicks review button on movieDetails page
-            // TODO
+            
             await _userService.AddMovieReview(reviewRequest);
             return Ok("Add Movie Review success!");
         }
