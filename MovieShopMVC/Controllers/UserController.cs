@@ -39,17 +39,21 @@ namespace MovieShopMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Favorite()
+        public async Task<IActionResult> Favorite(FavoriteRequestModel favoriteRequest)
         {
             // favorite a movie when user clicks BUY button on movieDetails page
-            return View();
+            //TODO
+            await _userService.AddFavorite(favoriteRequest);
+            return Ok("Add Favorite success!");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Review()
+        public async Task<IActionResult> Review(ReviewRequestModel reviewRequest)
         {
             // review a movie when user clicks review button on movieDetails page
-            return View();
+            // TODO
+            await _userService.AddMovieReview(reviewRequest);
+            return Ok("Add Movie Review success!");
         }
 
         [HttpGet]
@@ -86,7 +90,9 @@ namespace MovieShopMVC.Controllers
         public async Task<IActionResult> Favorites(int id)
         {
             //reuse movieCard
-            return View();
+            //TODO
+            var favMovies = await _userService.GetAllFavoritesForUser(id);
+            return View(favMovies);
         }
 
         [HttpGet]
