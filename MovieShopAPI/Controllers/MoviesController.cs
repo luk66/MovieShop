@@ -21,6 +21,30 @@ namespace MovieShopAPI.Controllers
             _movieService = movieService;
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllMovies()
+        {
+            var movies = await _movieService.GetAllMovies();
+            if (movies == null)
+            {
+                return NotFound($"No movie found in database");
+            }
+            return Ok(movies);
+        }
+
+        [HttpGet]
+        [Route("{id:int}/reviews")]
+        public async Task<IActionResult> GetMovieReviews(int id)
+        {
+            var movies = await _movieService.GetMovieReviewsByMovieId(id);
+            if (movies == null)
+            {
+                return NotFound($"No movie found with id: {id}");
+            }
+            return Ok(movies);
+        }
+
         [HttpGet]
         [Route("{id:int}")]
         //localhost/api/movies/{}
@@ -51,7 +75,7 @@ namespace MovieShopAPI.Controllers
                 return NotFound("No Movies Found");
             }
             return Ok(movies);
-            
+
         }
 
         [HttpGet]
@@ -62,6 +86,18 @@ namespace MovieShopAPI.Controllers
             if (!movies.Any())
             {
                 return NotFound("No Movies Found");
+            }
+            return Ok(movies);
+        }
+
+        [HttpGet]
+        [Route("genre/{id:int}")]
+        public async Task<IActionResult> GetMoviesByGenreId(int id)
+        {
+            var movies = await _movieService.GetMoviesByGenreId(id);
+            if (!movies.Any())
+            {
+                return NotFound("No Movies Found with this Genre Id: {id}");
             }
             return Ok(movies);
         }

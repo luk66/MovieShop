@@ -35,13 +35,19 @@ namespace MovieShopMVC
             // IOC
             services.AddControllersWithViews();
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICastService, CastService>();
+            services.AddScoped<IGenreService, GenreService>();
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IAsyncRepository<Favorite>, EfRepository<Favorite>>();
             services.AddScoped<IAsyncRepository<Review>, EfRepository<Review>>();
+            services.AddScoped<IAsyncRepository<Cast>, EfRepository<Cast>>();
+            services.AddScoped<IAsyncRepository<Genre>, EfRepository<Genre>>();
             services.AddHttpContextAccessor();
             // Inject connection string from appsetting.json to MovieShipDbContext
             services.AddDbContext<MovieShopDbContext>(

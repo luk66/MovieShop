@@ -16,6 +16,23 @@ namespace Infrastructure.Services
             _movieRepository = movieRepository;
         }
 
+        public async Task<List<MovieCardResponseModel>> GetAllMovies()
+        {
+            var movies = await _movieRepository.GetAll();
+            var movieCards = new List<MovieCardResponseModel>();
+
+            foreach (var movie in movies)
+            {
+                movieCards.Add(new MovieCardResponseModel
+                {
+                    Id = movie.Id,
+                    PosterUrl = movie.PosterUrl,
+                    Title = movie.Title
+                });
+            }
+            return movieCards;
+        }
+
         public async Task<List<MovieReviewResponseModel>> GetMovieReviewsByMovieId(int id)
         {
             var reviews = await _movieRepository.GetMovieReviews(id);
@@ -133,6 +150,23 @@ namespace Infrastructure.Services
         public async Task<List<MovieCardResponseModel>> GetTop30RatedMovies()
         {
             var movies = await _movieRepository.Get30TopRatedMovies();
+            var movieCards = new List<MovieCardResponseModel>();
+
+            foreach (var movie in movies)
+            {
+                movieCards.Add(new MovieCardResponseModel
+                {
+                    Id = movie.Id,
+                    PosterUrl = movie.PosterUrl,
+                    Title = movie.Title
+                });
+            }
+            return movieCards;
+        }
+
+        public async Task<List<MovieCardResponseModel>> GetMoviesByGenreId(int id)
+        {
+            var movies = await _movieRepository.GetMoviesByGenreId(id);
             var movieCards = new List<MovieCardResponseModel>();
 
             foreach (var movie in movies)

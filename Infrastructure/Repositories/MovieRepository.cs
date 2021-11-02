@@ -59,6 +59,13 @@ namespace Infrastructure.Repositories
             return reviews;
         }
 
+        public async Task<IEnumerable<Movie>> GetMoviesByGenreId(int id)
+        {
+            var movies = await _dbContext.movieGenres.Where(g => g.GenreId == id).Include(mg => mg.Movie).Select(m => m.Movie).ToListAsync();
+
+            return movies;
+        }
+
         public async Task<IEnumerable<Movie>> GetTop30RevenueMovies()
         {
             // we are gonna use EF with LINQ to get top 30 movies by revenue
@@ -68,5 +75,7 @@ namespace Infrastructure.Repositories
             var movies = await  _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(30).ToListAsync();
             return movies;
         }
+
+
     }
 }

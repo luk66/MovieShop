@@ -37,13 +37,17 @@ namespace MovieShopAPI
             services.AddControllers();
             // denpendency injection
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICastService, CastService>();
+            services.AddScoped<IGenreService, GenreService>();
+
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IAsyncRepository<Favorite>, EfRepository<Favorite>>();
             services.AddScoped<IAsyncRepository<Review>, EfRepository<Review>>();
+            services.AddScoped<IAsyncRepository<Cast>, EfRepository<Cast>>();
+            services.AddScoped<IAsyncRepository<Genre>, EfRepository<Genre>>();
 
             services.AddDbContext<MovieShopDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("MovieShopDbConnection")));
