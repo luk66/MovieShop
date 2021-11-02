@@ -9,6 +9,7 @@ namespace ApplicationCore.RepositoryInterfaces
 {
     public interface IMovieRepository: IAsyncRepository<Movie>
     {
+        Task<IEnumerable<Movie>> Get30TopRatedMovies();
         //method thats gonna get 30 highest revenue movies
         Task<IEnumerable<Movie>> GetTop30RevenueMovies();
         Task<IEnumerable<Review>> GetMovieReviews(int id, int pageSize = 30, int page = 1);

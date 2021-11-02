@@ -44,7 +44,7 @@ namespace Infrastructure.Services
             var movie = await _movieRepository.GetMovieById(id);
             if(movie == null)
             {
-                throw new Exception($"No Movie Found for this {id}");
+                //throw new Exception($"No Movie Found for this {id}");
             }
 
             var movieDetails = new MovieDetailsResponseModel
@@ -130,6 +130,21 @@ namespace Infrastructure.Services
 
         }
 
+        public async Task<List<MovieCardResponseModel>> GetTop30RatedMovies()
+        {
+            var movies = await _movieRepository.Get30TopRatedMovies();
+            var movieCards = new List<MovieCardResponseModel>();
 
+            foreach (var movie in movies)
+            {
+                movieCards.Add(new MovieCardResponseModel
+                {
+                    Id = movie.Id,
+                    PosterUrl = movie.PosterUrl,
+                    Title = movie.Title
+                });
+            }
+            return movieCards;
+        }
     }
 }

@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 namespace ApplicationCore.ServiceInterfaces
 {
     public interface IMovieService
-    {
+    {   
+        Task<List<MovieCardResponseModel>> GetTop30RatedMovies();
+
         Task<List<MovieCardResponseModel>> GetTop30RevenueMovies();
 
         Task<MovieDetailsResponseModel> GetMovieDetails(int id);

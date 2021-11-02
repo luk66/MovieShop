@@ -16,6 +16,31 @@ namespace Infrastructure.Repositories
         {
         }
 
+        public async Task<IEnumerable<Movie>> Get30TopRatedMovies()
+        {
+            var movies = await _dbContext.Reviews.Include(m => m.Movie)
+                        .GroupBy(r => new
+                        {
+                            id = r.MovieId,
+                            r.Movie.PosterUrl,
+                            r.Movie.Title,
+                            r.Movie.ReleaseDate
+                        })
+                        .OrderByDescending(r => r.Average(r => r.Rating))
+                        .Select(m => new Movie
+                        {
+                            Id = m.Key.id,
+                            PosterUrl = m.Key.PosterUrl,
+                            Title = m.Key.Title,
+                            ReleaseDate = m.Key.ReleaseDate,
+                            Rating = m.Average(x => x.Rating)
+                        }).Take(30).ToListAsync();
+
+            
+            return movies;
+            
+        }
+
         public async Task<Movie> GetMovieById(int Id)
         {
             var movie = await _dbContext.Movies.Include(m => m.Casts).ThenInclude(m => m.Cast)
