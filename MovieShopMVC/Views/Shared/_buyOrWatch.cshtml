@@ -1,0 +1,12 @@
+﻿@model ApplicationCore.Models.MovieDetailsResponseModel
+
+@if (Model.IsPurchased == true)
+{
+    <button class="btn btn-block btn-light mt-3"><i class="fas fa-video"></i> WATCH</button>
+}
+else
+{
+    <form class="mt-3" asp-controller="User" asp-action="Purchase" asp-route-id="@Model.Id" method="post">
+        <button type="button" class="btn btn-block btn-light mt-3">BUY $@Model.Price</button>
+    </form>
+}

@@ -1,0 +1,17 @@
+﻿
+@model ApplicationCore.Models.MovieDetailsResponseModel
+@if (Model.IsFavorited == true)
+{
+    <form asp-controller="User" asp-action="Unfavorite" method="post">
+        <input type="hidden" name="MovieId" value="@Model.Id" />
+        <button type="submit" class="btn btn-block btn-light mt-3">Unfavorite</button>
+    </form>
+}
+else
+{
+    <form asp-controller="User" asp-action="Favorite" method="post">
+        <input type="hidden" name="MovieId" value="@Model.Id" />
+        <button type="submit" class="btn btn-block btn-light mt-3">Favorite</button>
+    </form>
+}
+

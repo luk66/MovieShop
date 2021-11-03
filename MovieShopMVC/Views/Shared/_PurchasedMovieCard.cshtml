@@ -1,12 +1,8 @@
-﻿@model ApplicationCore.Models.MovieCardResponseModel
+﻿@model ApplicationCore.Models.PurchaseDetailsResponseModel
 
 <div class="card mb-4">
     @*asp: tag helper; asp-route-{paramname}*@
     
-    <button type="button" class="btn btn-secondary mt-0" data-toggle="modal" data-target="#exampleModal"  data-whatever= @Model.Id style="width: inherit">
-        Purchase Details
-    </button>
-
     <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -26,21 +22,21 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <i class="far fa-calendar-alt mr-2"></i>Purchased Date
-                                    <span class="badge badge-pill badge-dark">TODO</span>
+                                    <span class="badge badge-pill badge-dark">@Model.PurchaseDateTime</span>
                                 </li>
 
 
                                 <li class="list-group-item">
                                     <i class="far fa-money-bill-alt"></i> Price
                                     <span class="badge badge-pill badge-pill badge-dark">
-                                        TODO
+                                        @Model.TotalPrice
                                     </span>
                                 </li>
 
                                 <li class="list-group-item">
                                     <i class="fas fa-check-circle"></i> Purchase Number
                                     <span class="badge badge-pill badge-dark">
-                                        TODO
+                                        @Model.PurchaseNumber
                                     </span>
                                 </li>
                             </ul>

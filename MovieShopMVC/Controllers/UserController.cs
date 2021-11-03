@@ -34,16 +34,30 @@ namespace MovieShopMVC.Controllers
                 MovieId = id
             };
             var puchaseSuccess = await _userService.PurchaseMovie(purchaseRequest, userId);
-            return LocalRedirect("~/User/Purchases");
+            return RedirectToAction("Purchases"); ;
         }
 
         [HttpPost]
         public async Task<IActionResult> Favorite(FavoriteRequestModel favoriteRequest)
         {
             // favorite a movie when user clicks BUY button on movieDetails page
-            //TODO
+            
+            favoriteRequest.UserId = _currentUserService.UserId;
             await _userService.AddFavorite(favoriteRequest);
-            return Ok("Add Favorite success!");
+            return RedirectToAction("Favorites");
+            //return Ok("Add Favorite success!");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Unfavorite(FavoriteRequestModel favoriteRequest)
+        {
+            // favorite a movie when user clicks BUY button on movieDetails page
+           
+            favoriteRequest.UserId = _currentUserService.UserId;
+            await _userService.RemoveFavorite(favoriteRequest);
+            
+            return Redirect($"~/Movies/Details/{favoriteRequest.MovieId}");
+            //return Ok("Remove Favorite success!");
         }
 
         [HttpGet]
@@ -80,21 +94,22 @@ namespace MovieShopMVC.Controllers
             //}
             //RedirectToAction("Login", "Action");
             //int userId = Convert.ToInt32((HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
-            //TODO
+            
             var userId = _currentUserService.UserId;
             //var userId = 1;
             var userPurchases = await _userService.GetAllPurchasesForUser(userId);
-            var purchaseDetails = new List<PurchaseDetailsResponseModel>();
-            
-            foreach(var movie in userPurchases.PurchasedMovies)
-            {
-                var purchaseRespons = await _userService.GetPurchasesDetails(userId, movie.Id);
-                purchaseDetails.Add(purchaseRespons);
-            }
-            
-            ViewData["purchaseDetails"] = purchaseDetails;
             
             return View(userPurchases);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PurchaseDetails(int movieId)
+        {
+           
+            var userId = _currentUserService.UserId;
+            var purchaseDetails = await _userService.GetPurchasesDetails(userId, movieId);
+            return PartialView(purchaseDetails);
+
         }
 
         //[HttpGet]
@@ -105,17 +120,19 @@ namespace MovieShopMVC.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> Favorites(int id)
+        public async Task<IActionResult> Favorites()
         {
             //reuse movieCard
-            //TODO
+           
+            var id = _currentUserService.UserId;
             var favMovies = await _userService.GetAllFavoritesForUser(id);
             return View(favMovies);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Reviews(int id)
+        public async Task<IActionResult> Reviews()
         {
+            var id = _currentUserService.UserId;
             var movieReviews = await _userService.GetAllReviewsByUser(id);
             return View(movieReviews);
         }

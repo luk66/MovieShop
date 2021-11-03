@@ -92,7 +92,11 @@ namespace MovieShopAPI.Controllers
 
         [HttpGet]
         [Route("genre/{id:int}")]
-        public async Task<IActionResult> GetMoviesByGenreId(int id)
+        // http://localhost:5000/api/movies/genre/5?pagesize=30&pageIndex=35
+        // add pagination - serverside pagination -useful for large data
+        // LINQ _dbContext.skip(paigeindex-1).take(pagesize).tolistAsync()
+        // SQL offset 0 and fetch next 30
+        public async Task<IActionResult> GetMoviesByGenreId(int id, [FromQuery] int pagesize=30, [FromQuery] int pageIndex = 1)
         {
             var movies = await _movieService.GetMoviesByGenreId(id);
             if (!movies.Any())

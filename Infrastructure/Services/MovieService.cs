@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Models;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceInterfaces;
 using System;
@@ -7,13 +8,26 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class MovieService: IMovieService
+    public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
+        private readonly IAsyncRepository<Review> _reviewRepository;
+        private readonly IAsyncRepository<Purchase> _purchaseRepository;
 
-        public MovieService(IMovieRepository movieRepository)
+        public MovieService(IMovieRepository movieRepository, 
+                            IUserRepository userRepository,
+                            IFavoriteRepository favoriteRepository,
+                            IAsyncRepository<Review> reviewRepository,
+                            IPurchaseRepository purchaseRepository)
         {
             _movieRepository = movieRepository;
+            _userRepository = userRepository;
+            _favoriteRepository = favoriteRepository;
+            _reviewRepository = reviewRepository;
+            _purchaseRepository = purchaseRepository;
+
         }
 
         public async Task<List<MovieCardResponseModel>> GetAllMovies()
@@ -56,7 +70,7 @@ namespace Infrastructure.Services
             return movieReviews;
         }
 
-        public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)
+        public async Task<MovieDetailsResponseModel> GetMovieDetails(int id, int? userId = null)
         {
             var movie = await _movieRepository.GetMovieById(id);
             if(movie == null)
@@ -82,6 +96,13 @@ namespace Infrastructure.Services
                 ImdbUrl = movie.ImdbUrl,
                 TmdbUrl = movie.TmdbUrl
             };
+
+            if(userId != null)
+            {
+                movieDetails.IsPurchased = await _purchaseRepository.Exists(x => x.UserId == userId && x.MovieId == id);
+                movieDetails.IsFavorited = await _favoriteRepository.Exists(x => x.UserId == userId && x.MovieId == id);
+                movieDetails.IsReviewed = await _reviewRepository.Exists(x => x.UserId == userId && x.MovieId == id);
+            }
 
             foreach (var genre in movie.Genres)
             {

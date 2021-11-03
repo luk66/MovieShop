@@ -18,12 +18,12 @@ namespace Infrastructure.Services
         private readonly IUserRepository _userRepository;
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMovieRepository _movieReository;
-        private readonly IAsyncRepository<Favorite> _favoriteRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
         private readonly IAsyncRepository<Review> _reviewRepository;
 
 
         public UserService(IUserRepository userRepository, IPurchaseRepository purchaseRepository, IMovieRepository movieReository,
-                           IAsyncRepository<Favorite> favoriteRepository, IAsyncRepository<Review> reviewRepository)
+                           IFavoriteRepository favoriteRepository, IAsyncRepository<Review> reviewRepository)
         {
             _userRepository = userRepository;
             _purchaseRepository = purchaseRepository;
@@ -117,12 +117,18 @@ namespace Infrastructure.Services
 
         }
 
+        public async Task<bool> IsMovieFavorited(FavoriteRequestModel favoriteRequest)
+        {
+            var isFaved = await _favoriteRepository.Exists(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
+            return isFaved;
+        }
+
         public async Task AddFavorite(FavoriteRequestModel favoriteRequest)
         {
-            //TODO
-            var existFav = await _favoriteRepository.Get(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
+            
+            var existFav = await _favoriteRepository.Exists(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
 
-            if (existFav != null)
+            if (existFav == true)
             {
                 throw new Exception($"All already favorited");
             }
@@ -138,22 +144,24 @@ namespace Infrastructure.Services
 
         public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
         {
-            //TODO
-            var existFav = await _favoriteRepository.Get(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
-            if(existFav == null)
+ 
+            var existFav = await _favoriteRepository.Exists(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
+            if(existFav == false)
             {
                 throw new Exception($"Have not favorited yet");
             }
-            await _favoriteRepository.Delete(existFav.FirstOrDefault());
+            var oldFav = await _favoriteRepository.Get(f => f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
+            await _favoriteRepository.Delete(oldFav.FirstOrDefault());
         }
 
         public async Task<FavoriteResponseModel> GetAllFavoritesForUser(int id)
         {
             // TODO
-            var favoriteMovies = await _favoriteRepository.Get(f => f.UserId == id);
+            var favoriteMovies = await _favoriteRepository.GetAllFavoritesByUser(id);
             var fMovies = new List<FavoriteMovieResponseModel>();
             foreach(var movie in favoriteMovies)
-            {
+            {   
+                
                 fMovies.Add(new FavoriteMovieResponseModel
                 {
                     Id = movie.MovieId,
@@ -228,7 +236,10 @@ namespace Infrastructure.Services
         public async Task<PurchaseDetailsResponseModel> GetPurchasesDetails(int userId, int movieId)
         {   //TODO
             var purchase = await _purchaseRepository.GetPurchaseDetails(userId, movieId);
-
+            if(purchase == null)
+            {
+                throw new Exception($"No purchase details found with id:{movieId}");
+            }
             var purchaseDetails = new PurchaseDetailsResponseModel
             {
                 Id = purchase.Id,

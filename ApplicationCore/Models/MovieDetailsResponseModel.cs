@@ -36,6 +36,13 @@ namespace ApplicationCore.Models
         public DateTime? ReleaseDate { get; set; }
         public int? RunTime { get; set; }
         public decimal? Price { get; set; }
+
+        public bool? IsPurchased { get; set; }
+
+        public bool? IsReviewed { get; set; }
+
+        public bool? IsFavorited { get; set; }
+        
         //public int FavoritesCount { get; set; }
         //list of cast
         public List<CastResponseModel> Casts { get; set; }
