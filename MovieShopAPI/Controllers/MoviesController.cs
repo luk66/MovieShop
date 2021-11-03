@@ -98,7 +98,7 @@ namespace MovieShopAPI.Controllers
         // SQL offset 0 and fetch next 30
         public async Task<IActionResult> GetMoviesByGenreId(int id, [FromQuery] int pagesize=30, [FromQuery] int pageIndex = 1)
         {
-            var movies = await _movieService.GetMoviesByGenreId(id);
+            var movies = await _movieService.GetMoviesByGenreId(id, pagesize, pageIndex);
             if (!movies.Any())
             {
                 return NotFound("No Movies Found with this Genre Id: {id}");

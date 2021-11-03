@@ -53,13 +53,13 @@ namespace Infrastructure.Repositories
             return movie;
         }
 
-        public async Task<IEnumerable<Review>> GetMovieReviews(int id, int pageSize = 30, int page = 1)
+        public async Task<IEnumerable<Review>> GetMovieReviews(int id, int pageSize = 30, int pageIndex = 1)
         {
             var reviews = await _dbContext.Reviews.Include(r => r.User).Where(r => r.MovieId == id).ToListAsync();
             return reviews;
         }
 
-        public async Task<IEnumerable<Movie>> GetMoviesByGenreId(int id)
+        public async Task<IEnumerable<Movie>> GetMoviesByGenreId(int id, int pageSize = 30, int pageIndex = 1)
         {
             var movies = await _dbContext.movieGenres.Where(g => g.GenreId == id).Include(mg => mg.Movie).Select(m => m.Movie).ToListAsync();
 

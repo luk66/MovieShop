@@ -1,6 +1,7 @@
 ﻿@model ApplicationCore.Models.PurchaseResponseModel
 @{
     ViewData["Title"] = "Purchases";
+    var purchaseDetailsList = ViewBag.purchaseDetailsList ;
 }
 
 
@@ -16,10 +17,8 @@
                 {
                     <div class="col-xl-2 col-sm-4 col-lg-3 col-6">
                         @*<partial name="_MovieCard"  model="movieCard"/>*@
-                        @await Html.PartialAsync("_MovieCard", movieCard)
-                        <a type="button" class="btn btn-secondary mt-0" data-toggle="modal" data-target="#exampleModal"  style="width: inherit"  asp-controller="User" asp-action="PurchaseDetails" asp-route-id=@movieCard.Id >
-                            Purchase Details
-                        </a>
+                        @*@await Html.PartialAsync("_MovieCard", movieCard)*@
+                        <partial name="_PurchasedMovieCard" model="@purchaseDetailsList[movieCard.Id]"/>
                         
                     </div>
                 }

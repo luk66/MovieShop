@@ -15,6 +15,6 @@ namespace ApplicationCore.RepositoryInterfaces
         Task<IEnumerable<Review>> GetMovieReviews(int id, int pageSize = 30, int page = 1);
         //Task<PagedResultSet<Movie>> GetMoviesByGenre(int genreId, int pageSize = 30, int page = 1);
         Task<Movie> GetMovieById(int Id);
-        Task<IEnumerable<Movie>> GetMoviesByGenreId(int id);
+        Task<IEnumerable<Movie>> GetMoviesByGenreId(int id, int pageSize = 30, int page = 1);
     }
 }

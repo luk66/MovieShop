@@ -98,7 +98,13 @@ namespace MovieShopMVC.Controllers
             var userId = _currentUserService.UserId;
             //var userId = 1;
             var userPurchases = await _userService.GetAllPurchasesForUser(userId);
-            
+            var purchaseDetailsList = new Dictionary<int, PurchaseDetailsResponseModel>();
+            foreach(var movie in userPurchases.PurchasedMovies)
+            {
+                var movieDetail = await _userService.GetPurchasesDetails(userId, movie.Id);
+                purchaseDetailsList.Add(movie.Id, movieDetail);
+            }
+            ViewBag.purchaseDetailsList = purchaseDetailsList;
             return View(userPurchases);
         }
 

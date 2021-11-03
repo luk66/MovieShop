@@ -1,9 +1,16 @@
 ﻿@model ApplicationCore.Models.PurchaseDetailsResponseModel
-
+@{
+string dataTarget = "#"+ @Model.MovieId.ToString();
+string modelId = @Model.MovieId.ToString();
+}
 <div class="card mb-4">
-    @*asp: tag helper; asp-route-{paramname}*@
-    
-    <div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @dataTarget
+    @modelId
+    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#exampleModal" style="width: inherit">
+        Purchase Detail @Model.MovieId
+    </button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -48,7 +55,7 @@
         </div>
     </div>
 
-    <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Id">
+    <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.MovieId">
         <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
     </a>
 </div>
