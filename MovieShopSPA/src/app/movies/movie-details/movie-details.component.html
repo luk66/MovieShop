@@ -1,0 +1,108 @@
+
+<!-- {{movie.id}} -->
+<!-- {{movie!.title}} -->
+<div class="container">
+    <div class="bg-image mb-5" style="background-image: url({{movie.backdropUrl}}); height: 400px;">
+        <div class="row  mask" style="background-color: rgba(0, 0, 0, 0.8); height: 100%; margin:0">
+
+            <div class="col-5">
+                <img class="float-right mt-3" src="{{movie.posterUrl}}" style="max-height: 70%" />
+            </div>
+
+            <div class="col-5">
+
+                <h3 class="text-white mt-2">{{movie.title}}</h3>
+                <small class="text-muted"> {{movie.tagline}} </small>
+
+                <div class="row">
+                    <div class="col-4 text-secondary font-weight-bold mt-1">
+                        {{movie.runTime}} m | {{movie.releaseDate}}
+                    </div>
+                    <div class="col" *ngFor="let genre of movie.genres">
+                        
+                            <span class="badge badge-pill badge-secondary">{{genre.name}}</span>
+                        
+                    </div>
+                </div>
+                <div class="mt-2 mb-2">
+                    <span class="badge badge-success"> {{movie.rating}}</span>
+                </div>
+
+                <small class="text-white">{{movie.overview}}</small>
+
+
+            </div>
+            <div class="col-2">
+                <div class="mt-5">
+                    <a type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" asp-controller="Movies" asp-action="Reviews" asp-route-id="@Model.Id ">REVIEWS</a>
+
+                    <!-- <partial name="_buyOrWatch" />
+
+                    <partial name="_writeReview" />
+                    
+                    <partial name="_favorite"/> -->
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-5 bg-light rounded-lg">
+            <h4>MOVIE FACTS</h4>
+            <hr>
+
+            <div class="ml-0 mr-0">
+                <ul class="list-group list-group-flush m-0" style="opacity:1">
+                    <li class="list-group-item bg-transparent"><i class='far fa-calendar-alt  mr-2'></i>  Release Date <span class="badge badge-pill badge-dark">{{movie.releaseDate}}</span></li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-hourglass  mr-2"></i>  Run Time <span class="badge badge-pill badge-dark">{{movie.runTime}} m</span></li>
+                    <li class="list-group-item bg-transparent"><i class="far fa-money-bill-alt  mr-2"></i>  Box Office <span class="badge badge-pill badge-dark">{{movie.revenue}}</span></li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-dollar-sign  mr-2"></i>  Budget <span class="badge badge-pill badge-dark">{{movie.budget}}</span></li>
+                    <li class="list-group-item bg-transparent">
+                        <a class=" mr-3" href="{{movie.imdbUrl}}" target="_blank" style="text-decoration: none; color:inherit;"><i class="fab fa-imdb"></i></a>
+                        <a href="#" style="text-decoration: none; color:inherit;"><i class="fas fa-share-square"></i></a>
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="ml-0 mr-0 mt-2">
+                <h4>Trailers</h4>
+                <hr>
+                <ul class="list-group " *ngFor="let trailer of movie.trailers">
+                    
+                        <li class="list-group-item bg-transparent" style="border:0">
+                            <a href="{{trailer.trailerUrl}}" style="text-decoration: none; color:inherit; "><i class="fab fa-youtube"></i>  {{trailer.name}}</a>
+                        </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-6">
+
+            <div class="ml-5">
+                <div class="row border-bottom">
+                    <h4>CAST</h4>
+                </div>
+                
+                    <div class="row border-bottom" *ngFor="let cast of movie.casts">
+                        <div class="col ml-3">
+                            <img class="img-responsive img-thumbnail rounded-sm rounded-circle border-0" stype="height: 50%" src="{{cast.profilePath}}" />
+                        </div>
+                        <div class="col-5 mt-3">
+                           {{cast.name}}
+                        </div>
+                        <div class="col-5 mt-3">
+                            {{cast.character}}
+                        </div>
+                    </div>
+
+                
+
+
+            </div>
+        </div>
+    </div>
+</div>
