@@ -25,7 +25,11 @@
                     </div>
                 </div>
                 <div class="mt-2 mb-2">
-                    <span class="badge badge-success"> {{movie.rating}}</span>
+                    <!-- <span class="badge badge-success"> {{movie.rating}}</span> -->
+                    <span
+                [ngClass]="{'badge badge-success': movie.rating >= 8, 'badge badge-warning': movie.rating < 8 && movie.rating >= 7, 'badge badge-danger': movie.rating < 7}">
+                &nbsp;{{movie.rating.toFixed(2)}}&nbsp;
+            </span>
                 </div>
 
                 <small class="text-white">{{movie.overview}}</small>
@@ -34,13 +38,40 @@
             </div>
             <div class="col-2">
                 <div class="mt-5">
-                    <a type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" asp-controller="Movies" asp-action="Reviews" asp-route-id="@Model.Id ">REVIEWS</a>
-
-                    <!-- <partial name="_buyOrWatch" />
-
-                    <partial name="_writeReview" />
-                    
-                    <partial name="_favorite"/> -->
+                    <ul>
+                        <li>
+                            <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" data-toggle="modal" >
+                                Reviews
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" data-toggle="modal" *ngIf="!isReviewed">
+                                Write Review 
+                            </button>
+                            <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" data-toggle="modal" *ngIf="isReviewed">
+                                Modify Review
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" data-toggle="modal" *ngIf="!isPurchased">
+                                Buy {{movie.price.toLocaleString('en-US', {
+                                style: 'currency',
+                                currency: 'USD'
+                                })}}
+                            </button>
+                            <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" data-toggle="modal" *ngIf="isPurchased">
+                                Watch Movie
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" data-toggle="modal" *ngIf="isFavorited">
+                                Unfavorite
+                            </button>
+                            <button type="button" class="btn btn-outline-light btn-lg btn-block btn-sm mt-3" data-toggle="modal" *ngIf="!isFavorited">
+                                Favorite
+                            </button>
+                        </li>
+                    </ul>
                 </div>
 
 
@@ -57,8 +88,14 @@
                 <ul class="list-group list-group-flush m-0" style="opacity:1">
                     <li class="list-group-item bg-transparent"><i class='far fa-calendar-alt  mr-2'></i>  Release Date <span class="badge badge-pill badge-dark">{{movie.releaseDate}}</span></li>
                     <li class="list-group-item bg-transparent"><i class="fas fa-hourglass  mr-2"></i>  Run Time <span class="badge badge-pill badge-dark">{{movie.runTime}} m</span></li>
-                    <li class="list-group-item bg-transparent"><i class="far fa-money-bill-alt  mr-2"></i>  Box Office <span class="badge badge-pill badge-dark">{{movie.revenue}}</span></li>
-                    <li class="list-group-item bg-transparent"><i class="fas fa-dollar-sign  mr-2"></i>  Budget <span class="badge badge-pill badge-dark">{{movie.budget}}</span></li>
+                    <li class="list-group-item bg-transparent"><i class="far fa-money-bill-alt  mr-2"></i>  Box Office <span class="badge badge-pill badge-dark">{{movie.revenue.toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                        })}}</span></li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-dollar-sign  mr-2"></i>  Budget <span class="badge badge-pill badge-dark">{{movie.budget.toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                        })}}</span></li>
                     <li class="list-group-item bg-transparent">
                         <a class=" mr-3" href="{{movie.imdbUrl}}" target="_blank" style="text-decoration: none; color:inherit;"><i class="fab fa-imdb"></i></a>
                         <a href="#" style="text-decoration: none; color:inherit;"><i class="fas fa-share-square"></i></a>

@@ -1,6 +1,10 @@
 
 <div class="card mb-4">
-<a>
+<!-- navigate to loacalhost:4200/movies/id -->
+<!-- router link -->
+<!-- ng-route-link -->
+
+<a [routerLink]="['/movies', movieCard.id]"> 
     <img src="{{movieCard.posterUrl}}" alt="{{movieCard.title}}" class="img-fluid rounded"/>
 </a>
 </div>

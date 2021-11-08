@@ -23,8 +23,8 @@ export class HomeComponent implements OnInit {
     this.movieService.getTopRevenueMovies().subscribe(
       m => {
         this.movieCards = m;
-        console.log('inside the ngOnInit method of Home Component');
-        console.log(this.movieCards);
+        // console.log('inside the ngOnInit method of Home Component');
+        // console.log(this.movieCards);
       }
     );
   }

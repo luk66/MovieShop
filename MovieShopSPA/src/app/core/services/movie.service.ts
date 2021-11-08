@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import {MovieCard} from 'src/app/shared/models/moviecard';
 import {MovieDetailsModel} from 'src/app/shared/models/movieDetailsModel';
 import {HttpClient} from '@angular/common/http';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,15 @@ export class MovieService {
   getTopRevenueMovies(): Observable<MovieCard[]>{
     // call our API, using HttpClient (XMLHttpRequest) to make GET request 
     // HttpClient class comes from HttpClientModule (Angular team created)
-    return this.http.get<MovieCard[]>('https://localhost:44387/api/Movies/toprevenue');
+    return this.http.get<MovieCard[]>(`${environment.apiBaseURl}Movies/toprevenue`);
   }
 
   getTopRatedMovies(): Observable<MovieCard[]> {
-    return this.http.get<MovieCard[]>('https://localhost:44387/api/Movies/toprated');
+    return this.http.get<MovieCard[]>(`${environment.apiBaseURl}Movies/toprated`);
   }
 
   getMovieDetails(id: number): Observable<MovieDetailsModel>{
-    return this.http.get<MovieDetailsModel>('https://localhost:44387/api/Movies/'+id);
+    
+    return this.http.get<MovieDetailsModel>(`${environment.apiBaseURl}Movies/${id}`);
   }
 }

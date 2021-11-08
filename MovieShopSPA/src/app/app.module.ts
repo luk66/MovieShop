@@ -7,9 +7,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { MovieCardComponent } from './shared/components/movie-card/movie-card.component';
-import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
+// import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { GenresComponent } from './genres/genres/genres.component';
-import { TopRatedMoviesComponent } from './movies/top-rated-movies/top-rated-movies.component';
+// import { TopRatedMoviesComponent } from './movies/top-rated-movies/top-rated-movies.component';
+// import { MoviesModule } from './movies/movies.module';
 
 @NgModule({
   declarations: [
@@ -17,14 +18,14 @@ import { TopRatedMoviesComponent } from './movies/top-rated-movies/top-rated-mov
     HomeComponent,
     HeaderComponent,
     MovieCardComponent,
-    MovieDetailsComponent,
     GenresComponent,
-    TopRatedMoviesComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    // MoviesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
